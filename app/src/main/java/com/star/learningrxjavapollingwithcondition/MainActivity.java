@@ -48,9 +48,10 @@ public class MainActivity extends AppCompatActivity {
         // Create an observable instance for looking up Retrofit contributors.
         Observable<List<Contributor>> observable = github.contributors(OWNER, REPO);
 
-        observable.repeatWhen(objectObservable -> objectObservable.flatMap(
-                (Function<Object, ObservableSource<?>>) o ->
-                        Observable.just(1).delay(3, TimeUnit.SECONDS)))
+        observable
+                .repeatWhen(objectObservable -> objectObservable.flatMap(
+                        (Function<Object, ObservableSource<?>>) o ->
+                                Observable.just(1).delay(3, TimeUnit.SECONDS)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<Contributor>>() {
